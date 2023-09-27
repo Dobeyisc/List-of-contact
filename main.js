@@ -1,31 +1,68 @@
-//Crea una lista de contactos con datos predefinidos, cada contacto debe contener el nombre y apellido como una sola cadena de caracteres
-
-//Crea una función para añadir un nuevo contacto a una lista
-
-//Crea una función para borrar un contacto existente de la lista
-
-//Crea una función para imprimir en consola los contactos presentes en la lista
-
-//Publica tu código en Github, en tu repositorio contact-list crea un branch llamado project-1 y compártelo con nosotros
-
-let listaDeContactos = [
-    "Wilmer",
-    "Eva",
-    "Jose",
-    "Camila"
-];
-const agregrarContactos = nombre => {
-    listaDeContactos.push(nombre);
-}
-const eliminarContacto = nombre => {
-    const indice = listaDeContactos.indexOf(nombre);
-        if (indice !==-1) {
-          listaDeContactos.splice(indice,1);
-          console.info(`${nombre} fue elimindo`);  
-        } else {
-            console.error(`${nombre} no se encuentra`);
-        }
-}
-
-agregrarContactos("Fabian");
-console.log(listaDeContactos);;
+class AgendaDeContactos {
+    constructor() {
+      this.listaDeContactos = [];
+    }
+  
+    agregarContacto(nombre) {
+      if (typeof nombre !== 'string' || nombre.trim() === '') {
+        console.error('El nombre no es válido');
+        return;
+      }
+  
+      if (this.listaDeContactos.includes(nombre)) {
+        console.error(`${nombre} ya está en la lista`);
+        return;
+      }
+  
+      this.listaDeContactos.push(nombre);
+      console.info(`${nombre} fue agregado`);
+    }
+  
+    eliminarContacto(nombre) {
+      const indice = this.listaDeContactos.indexOf(nombre);
+      if (indice !== -1) {
+        this.listaDeContactos.splice(indice, 1);
+        console.info(`${nombre} fue eliminado`);
+      } else {
+        console.error(`${nombre} no se encuentra en la lista`);
+      }
+    }
+  
+    actualizarContacto(nombreAnterior, nuevoNombre) {
+      if (!nombreAnterior || !nuevoNombre) {
+        console.error('Ambos nombres son necesarios para la actualización');
+        return;
+      }
+  
+      const indice = this.listaDeContactos.indexOf(nombreAnterior);
+      if (indice !== -1) {
+        this.listaDeContactos[indice] = nuevoNombre;
+        console.info(`${nombreAnterior} fue actualizado a ${nuevoNombre}`);
+      } else {
+        console.error(`${nombreAnterior} no se encuentra en la lista`);
+      }
+    }
+  
+    listarContactos() {
+        console.log('Lista de contactos:');
+        const contactosTabla = this.listaDeContactos.map((nombre, index) => ({
+          '#': index + 1,
+          'Nombre': nombre,
+        }));
+        console.table(contactosTabla);
+    }
+  }
+  
+  const agenda = new AgendaDeContactos();
+  
+  agenda.agregarContacto("Wilmer");
+  agenda.agregarContacto("Eva");
+  agenda.agregarContacto("Jose");
+  agenda.agregarContacto("Camila");
+  agenda.actualizarContacto("Eva", "Caro");
+  agenda.eliminarContacto("Jose");
+  
+  agenda.listarContactos();
+  
+  
+  
